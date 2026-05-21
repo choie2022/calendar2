@@ -308,10 +308,10 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
 <div class="conf-wrap" id="conf-wrap"></div>
 
 <script>
-const DAY1=new Date(2025,4,21);
+const DAY1=new Date(2025,5,1);
 const TOTAL=600;
 const WEEK_LABELS=['1주차 · Week 1','2주차 · Week 2','3주차 · Week 3','4주차 · Week 4'];
-const WEEK_DATES=['May 21–27','May 28–Jun 3','Jun 4–10','Jun 11–17'];
+const WEEK_DATES=['Jun 1–7','Jun 8–14','Jun 15–21','Jun 22–28'];
 const WEEKLY_Q=[
   '이번 주 가족과 가장 기억에 남는 예배 순간은?',
   '이번 주 챌린지 중 가장 어려웠던 것은?',
@@ -415,8 +415,8 @@ function renderCal(){
     document.getElementById('today-ko').textContent='Day '+(ti+1)+' · '+DAYS[ti].ko;
     document.getElementById('today-en').textContent=DAYS[ti].en;
   }else{
-    document.getElementById('today-ko').textContent='챌린지 기간이 아닙니다';
-    document.getElementById('today-en').textContent='Outside challenge period';
+    document.getElementById('today-ko').textContent='6월 1일부터 시작됩니다!';
+    document.getElementById('today-en').textContent='Challenge begins June 1st';
   }
   renderWeeks();
   drawQR();
