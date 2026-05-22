@@ -2,199 +2,384 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>28일 가정 예배 챌린지</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
-:root{
-  --bg:#faf9f6;--bg2:#f2f0eb;--bg3:#e8e5dd;
-  --text:#1a1a18;--text2:#5a5850;--text3:#9a9890;
-  --accent:#3d5a3e;--accent2:#6b8f6c;--accent-light:#e8f0e8;
-  --border:rgba(30,28,20,0.11);--border2:rgba(30,28,20,0.06);
-  --gold:#b8983a;--gold-light:#f5f0e0;
-  --done:#3d5a3e;--done-light:#e8f0e8;
-  --radius:14px;--radius-sm:10px;
-  --chip-p-bg:#eeedfe;--chip-p-c:#3c3489;
-  --chip-b-bg:#e6f1fb;--chip-b-c:#0c447c;
-  --chip-d-bg:#faeeda;--chip-d-c:#633806;
-  --chip-w-bg:#fbeaf0;--chip-w-c:#72243e;
-  --chip-g-bg:#eaf3de;--chip-g-c:#27500a;
-  --chip-s-bg:#f1efe8;--chip-s-c:#444441;
+:root {
+  --navy:   #0d1b2a;
+  --navy2:  #1a2d42;
+  --navy3:  #243650;
+  --lime:   #c8f135;
+  --lime2:  #b0d620;
+  --sky:    #7dd8f0;
+  --sky2:   #5bc8e8;
+  --pink:   #ffb3d1;
+  --pink2:  #ff8fb8;
+  --white:  #ffffff;
+  --offwhite: #f4f6f8;
+  --text-on-navy: #e8edf2;
+  --text-muted:   #7a8fa0;
+  --radius: 20px;
+  --radius-sm: 12px;
 }
-[data-theme="dark"]{
-  --bg:#131310;--bg2:#1c1c18;--bg3:#252520;
-  --text:#f0ede4;--text2:#a8a598;--text3:#6a6860;
-  --accent:#7ab87c;--accent2:#5a9860;--accent-light:#1a2a1a;
-  --border:rgba(240,237,228,0.09);--border2:rgba(240,237,228,0.05);
-  --gold:#d4a840;--gold-light:#1e1a08;
-  --done:#7ab87c;--done-light:#1a2a1a;
-  --chip-p-bg:#26215c;--chip-p-c:#afa9ec;
-  --chip-b-bg:#042c53;--chip-b-c:#85b7eb;
-  --chip-d-bg:#412402;--chip-d-c:#fac775;
-  --chip-w-bg:#4b1528;--chip-w-c:#ed93b1;
-  --chip-g-bg:#173404;--chip-g-c:#97c459;
-  --chip-s-bg:#2c2c2a;--chip-s-c:#b4b2a9;
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+html { font-size: 16px; }
+body { font-family: 'Noto Sans KR', sans-serif; background: var(--navy); color: var(--text-on-navy); min-height: 100vh; overflow-x: hidden; }
+
+/* ── PAGES ── */
+.page { display: none; min-height: 100vh; }
+.page.active { display: block; animation: fadeUp .3s ease; }
+@keyframes fadeUp { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:translateY(0); } }
+.slide-in { animation: slideIn .32s cubic-bezier(.22,.68,0,1.1) !important; }
+@keyframes slideIn { from { opacity:0; transform:translateX(30px); } to { opacity:1; transform:translateX(0); } }
+
+/* ── TOPBAR ── */
+.topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 20px; position: sticky; top: 0; z-index: 50;
+  background: var(--navy); border-bottom: 1px solid rgba(255,255,255,0.06);
 }
-*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-html{font-size:16px}
-body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;transition:background .3s,color .3s}
+.topbar-logo { font-family: 'Nanum Myeongjo', serif; font-size: 17px; font-weight: 700; color: var(--lime); }
+.topbar-sub  { font-size: 11px; color: var(--text-muted); margin-top: 1px; }
+.topbar-right { display: flex; gap: 8px; }
+.icon-btn {
+  background: var(--navy2); border: 1px solid rgba(255,255,255,0.1);
+  border-radius: var(--radius-sm); padding: 8px 13px; cursor: pointer;
+  color: var(--text-muted); font-size: 13px; font-family: 'Noto Sans KR', sans-serif;
+  transition: all .15s; min-height: 38px;
+}
+.icon-btn:active { background: var(--navy3); }
 
-/* PAGES */
-.page{display:none;min-height:100vh}
-.page.active{display:block;animation:fadeUp .3s ease}
-@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
-.slide-in{animation:slideIn .3s cubic-bezier(.22,.68,0,1.1)!important}
-@keyframes slideIn{from{opacity:0;transform:translateX(28px)}to{opacity:1;transform:translateX(0)}}
+/* ══════════════════════════════
+   LANDING
+══════════════════════════════ */
+#page-landing.active {
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center; min-height: 100vh; padding: 2.5rem 1.5rem; text-align: center;
+}
+.land-tag {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(200,241,53,0.15); color: var(--lime);
+  font-size: 12px; padding: 5px 14px; border-radius: 99px;
+  border: 1px solid rgba(200,241,53,0.3); margin-bottom: 1.5rem; font-weight: 500;
+}
+.land-title {
+  font-family: 'Nanum Myeongjo', serif; font-size: 3rem; font-weight: 700;
+  line-height: 1.2; color: var(--white); margin-bottom: .75rem; letter-spacing: -.03em;
+}
+.land-title span { color: var(--lime); }
+.land-en { font-size: 1rem; color: var(--text-muted); margin-bottom: .5rem; font-weight: 300; }
+.land-verse {
+  font-family: 'Nanum Myeongjo', serif; font-size: 13px; color: var(--text-muted);
+  margin-bottom: 2.5rem; font-style: italic; line-height: 1.6;
+}
+.land-cta {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  background: var(--lime); color: var(--navy); font-size: 16px;
+  padding: 16px 36px; border-radius: var(--radius); border: none; cursor: pointer;
+  font-family: 'Noto Sans KR', sans-serif; font-weight: 700;
+  width: 100%; max-width: 280px; transition: all .2s;
+}
+.land-cta:active { background: var(--lime2); transform: scale(.97); }
+.land-stats { display: flex; gap: 2.5rem; margin-top: 2.5rem; justify-content: center; }
+.stat-num { font-family: 'Nanum Myeongjo', serif; font-size: 2.2rem; font-weight: 700; color: var(--lime); }
+.stat-label { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
 
-/* TOPBAR */
-.topbar{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;background:var(--bg);border-bottom:1px solid var(--border2);position:sticky;top:0;z-index:50}
-.topbar-logo{font-family:'Nanum Myeongjo',serif;font-size:17px;font-weight:700;color:var(--accent)}
-.topbar-sub{font-size:11px;color:var(--text3);margin-top:1px}
-.topbar-right{display:flex;gap:8px}
-.icon-btn{background:none;border:1px solid var(--border);border-radius:var(--radius-sm);padding:8px 12px;cursor:pointer;color:var(--text2);font-size:13px;font-family:'Noto Sans KR',sans-serif;transition:all .15s;display:flex;align-items:center;gap:5px;min-height:38px}
-.icon-btn:active{background:var(--bg3)}
+/* ══════════════════════════════
+   CALENDAR PAGE
+══════════════════════════════ */
+.cal-scroll { padding: 0 0 6rem; }
+.cal-pad { padding: 0 18px; }
 
-/* ── LANDING ── */
-#page-landing{background:var(--bg);display:none}
-#page-landing.active{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:2.5rem 1.5rem;text-align:center}
-.land-tag{display:inline-flex;align-items:center;gap:6px;background:var(--gold-light);color:var(--gold);font-size:12px;padding:5px 14px;border-radius:99px;border:1px solid rgba(184,152,58,.3);margin-bottom:1.5rem;font-weight:500}
-.land-title{font-family:'Nanum Myeongjo',serif;font-size:2.8rem;font-weight:700;line-height:1.2;color:var(--text);margin-bottom:.75rem;letter-spacing:-.03em}
-.land-title span{color:var(--accent)}
-.land-en{font-size:1rem;color:var(--text2);margin-bottom:.4rem;font-weight:300}
-.land-verse{font-family:'Nanum Myeongjo',serif;font-size:13px;color:var(--text3);margin-bottom:2.5rem;font-style:italic;line-height:1.6}
-.land-cta{display:flex;align-items:center;justify-content:center;gap:8px;background:var(--accent);color:#fff;font-size:16px;padding:16px 36px;border-radius:var(--radius);border:none;cursor:pointer;font-family:'Noto Sans KR',sans-serif;font-weight:500;width:100%;max-width:280px;transition:all .2s}
-.land-cta:active{background:var(--accent2);transform:scale(.98)}
-.land-stats{display:flex;gap:2rem;margin-top:2.5rem;justify-content:center}
-.stat-num{font-family:'Nanum Myeongjo',serif;font-size:2rem;font-weight:700;color:var(--accent)}
-.stat-label{font-size:11px;color:var(--text3);margin-top:2px}
+/* hero cards row */
+.hero-row { display: flex; gap: 12px; margin-bottom: 14px; }
 
-/* ── CALENDAR PAGE ── */
-.cal-container{padding:0 0 5rem}
+/* PROGRESS CARD — lime */
+.prog-card {
+  flex: 1.1; background: var(--lime); border-radius: var(--radius);
+  padding: 18px 16px; display: flex; flex-direction: column; justify-content: space-between; min-height: 140px;
+}
+.prog-card-label { font-size: 11px; font-weight: 700; color: var(--navy); letter-spacing: .05em; text-transform: uppercase; }
+.prog-big { font-family: 'Nanum Myeongjo', serif; font-size: 3.2rem; font-weight: 700; color: var(--navy); line-height: 1; margin: 6px 0 2px; }
+.prog-sub { font-size: 12px; color: var(--navy); opacity: .65; }
+.prog-mini-bar { height: 5px; background: rgba(0,0,0,.15); border-radius: 99px; margin-top: 10px; overflow: hidden; }
+.prog-mini-fill { height: 5px; background: var(--navy); border-radius: 99px; transition: width .6s ease; }
 
-/* hero strip */
-.cal-hero{padding:20px 20px 0}
-.streak-row{display:flex;align-items:center;justify-content:space-between;background:var(--gold-light);border:1px solid rgba(184,152,58,.25);border-radius:var(--radius);padding:14px 16px;margin-bottom:12px}
-.streak-flame{font-size:28px;line-height:1}
-.streak-info{flex:1;margin-left:12px}
-.streak-big{font-family:'Nanum Myeongjo',serif;font-size:22px;font-weight:700;color:var(--gold);line-height:1}
-.streak-label{font-size:12px;color:var(--gold);margin-top:2px}
-.streak-done{font-size:12px;color:var(--text3)}
+/* STREAK CARD — sky */
+.streak-card {
+  flex: 0.9; background: var(--sky); border-radius: var(--radius);
+  padding: 18px 16px; display: flex; flex-direction: column; justify-content: space-between; min-height: 140px;
+}
+.streak-card-label { font-size: 11px; font-weight: 700; color: var(--navy); letter-spacing: .05em; text-transform: uppercase; }
+.streak-flame-big { font-size: 2rem; margin: 4px 0; }
+.streak-big { font-family: 'Nanum Myeongjo', serif; font-size: 2.6rem; font-weight: 700; color: var(--navy); line-height: 1; }
+.streak-sub { font-size: 11px; color: var(--navy); opacity: .65; margin-top: 2px; }
 
-.today-card{background:var(--accent-light);border:1px solid var(--accent2);border-radius:var(--radius);padding:16px;margin-bottom:12px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;transition:background .15s;-webkit-tap-highlight-color:transparent}
-.today-card:active{background:var(--bg3)}
-.today-tag{font-size:10px;color:var(--accent2);font-weight:500;letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px}
-.today-ko{font-size:15px;font-weight:500;color:var(--text)}
-.today-en{font-size:12px;color:var(--text3);margin-top:2px}
-.today-arr{font-size:20px;color:var(--accent2)}
+/* TODAY CARD — pink full-width */
+.today-card {
+  background: var(--pink); border-radius: var(--radius); padding: 18px;
+  margin-bottom: 14px; cursor: pointer; display: flex;
+  align-items: center; justify-content: space-between; gap: 12px;
+  transition: background .15s;
+}
+.today-card:active { background: var(--pink2); }
+.today-tag { font-size: 10px; font-weight: 700; color: var(--navy); letter-spacing: .07em; text-transform: uppercase; margin-bottom: 5px; }
+.today-ko { font-size: 16px; font-weight: 700; color: var(--navy); line-height: 1.4; }
+.today-en { font-size: 12px; color: var(--navy); opacity: .6; margin-top: 3px; }
+.today-arr { font-size: 22px; color: var(--navy); font-weight: 700; flex-shrink: 0; }
 
-.prog-wrap{margin-bottom:4px}
-.prog-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
-.prog-label{font-size:12px;color:var(--text3)}
-.prog-pct{font-size:13px;font-weight:500;color:var(--accent)}
-.prog-track{height:5px;background:var(--bg3);border-radius:99px;overflow:hidden}
-.prog-fill{height:5px;background:var(--accent);border-radius:99px;transition:width .5s ease}
+/* FAMILY SECTION */
+.section-title {
+  font-size: 13px; font-weight: 700; color: var(--text-muted);
+  letter-spacing: .06em; text-transform: uppercase; margin-bottom: 10px; margin-top: 18px;
+}
+.family-card {
+  background: var(--navy2); border: 1px solid rgba(255,255,255,0.07);
+  border-radius: var(--radius); padding: 16px; margin-bottom: 14px;
+}
+.family-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+.family-title { font-size: 14px; font-weight: 700; color: var(--white); }
+.family-edit { font-size: 12px; color: var(--sky); cursor: pointer; padding: 4px 8px; }
+.member-row { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+.member-row:last-child { margin-bottom: 0; }
+.member-avatar {
+  width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center;
+  justify-content: center; font-size: 14px; font-weight: 700; flex-shrink: 0;
+  color: var(--navy);
+}
+.av-lime { background: var(--lime); }
+.av-sky  { background: var(--sky);  }
+.av-pink { background: var(--pink); }
+.av-gold { background: #f5c842;     }
+.member-info { flex: 1; min-width: 0; }
+.member-name { font-size: 13px; font-weight: 500; color: var(--white); margin-bottom: 5px; }
+.member-bar-bg { height: 6px; background: rgba(255,255,255,.1); border-radius: 99px; overflow: hidden; }
+.member-bar-fill { height: 6px; border-radius: 99px; transition: width .6s ease; }
+.member-pct { font-size: 12px; font-weight: 700; flex-shrink: 0; }
 
-/* week sections */
-.weeks-wrap{padding:0 20px}
-.week-section{margin-top:20px}
-.week-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
-.week-title{font-family:'Nanum Myeongjo',serif;font-size:16px;font-weight:700;color:var(--text)}
-.week-prog{font-size:12px;color:var(--text3)}
-.week-toggle{background:none;border:none;cursor:pointer;color:var(--text3);font-size:18px;padding:4px 8px;transition:transform .2s}
-.week-toggle.open{transform:rotate(180deg)}
-.week-cards{display:flex;flex-direction:column;gap:8px;overflow:hidden;transition:max-height .3s ease;max-height:0}
-.week-cards.open{max-height:2000px}
+/* ADD MEMBER */
+.add-member-btn {
+  width: 100%; padding: 12px; background: rgba(255,255,255,.04);
+  border: 1.5px dashed rgba(255,255,255,.15); border-radius: var(--radius-sm);
+  cursor: pointer; font-size: 13px; color: var(--text-muted);
+  font-family: 'Noto Sans KR', sans-serif; margin-top: 10px; transition: all .15s;
+}
+.add-member-btn:active { background: rgba(255,255,255,.08); }
 
-.day-row{display:flex;align-items:center;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;cursor:pointer;transition:background .15s;position:relative;gap:12px}
-.day-row:active{background:var(--bg2)}
-.day-row.is-done{background:var(--done-light);border-color:rgba(61,90,62,.2)}
-.day-row.is-today{border-color:var(--accent2);border-width:1.5px}
-.day-date-col{text-align:center;min-width:36px}
-.day-date-num{font-family:'Nanum Myeongjo',serif;font-size:18px;font-weight:700;color:var(--text);line-height:1}
-.day-date-sub{font-size:10px;color:var(--text3);margin-top:2px}
-.day-row.is-today .day-date-num{color:var(--accent)}
-.day-sep{width:1px;height:36px;background:var(--border);flex-shrink:0}
-.day-content{flex:1;min-width:0}
-.day-ko{font-size:14px;font-weight:500;color:var(--text);line-height:1.4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.day-en{font-size:11px;color:var(--text3);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.day-chip-row{display:flex;align-items:center;gap:6px;margin-top:5px}
-.day-chip{font-size:10px;padding:2px 8px;border-radius:99px;font-weight:400}
-.day-done-icon{width:22px;height:22px;border-radius:50%;background:var(--done);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.day-done-icon span{color:#fff;font-size:11px}
-.day-today-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);flex-shrink:0}
+/* MEMBER MODAL */
+.modal-overlay {
+  display: none; position: fixed; inset: 0; background: rgba(0,0,0,.6);
+  z-index: 100; align-items: flex-end; justify-content: center; padding: 0;
+}
+.modal-overlay.open { display: flex; }
+.modal-sheet {
+  background: var(--navy2); border-radius: 24px 24px 0 0;
+  width: 100%; max-width: 480px; padding: 24px 20px 36px;
+  animation: sheetUp .28s ease;
+}
+@keyframes sheetUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+.modal-handle { width: 40px; height: 4px; background: rgba(255,255,255,.2); border-radius: 99px; margin: 0 auto 20px; }
+.modal-title { font-size: 16px; font-weight: 700; color: var(--white); margin-bottom: 16px; }
+.modal-input {
+  width: 100%; padding: 14px 16px; background: var(--navy3);
+  border: 1px solid rgba(255,255,255,.12); border-radius: var(--radius-sm);
+  font-size: 15px; font-family: 'Noto Sans KR', sans-serif; color: var(--white);
+  margin-bottom: 12px; transition: border .15s;
+}
+.modal-input:focus { outline: none; border-color: var(--lime); }
+.modal-colors { display: flex; gap: 10px; margin-bottom: 20px; }
+.color-dot {
+  width: 32px; height: 32px; border-radius: 50%; cursor: pointer;
+  border: 3px solid transparent; transition: border .15s; flex-shrink: 0;
+}
+.color-dot.selected { border-color: var(--white); }
+.modal-confirm {
+  width: 100%; padding: 15px; background: var(--lime); border: none;
+  border-radius: var(--radius-sm); cursor: pointer; font-size: 15px;
+  font-family: 'Noto Sans KR', sans-serif; font-weight: 700; color: var(--navy);
+  transition: all .15s;
+}
+.modal-confirm:active { background: var(--lime2); }
 
-/* ── DAY PAGE ── */
-.day-page-wrap{max-width:480px;margin:0 auto;padding:0 20px 5rem}
-.back-btn{display:inline-flex;align-items:center;gap:5px;background:none;border:none;cursor:pointer;color:var(--text3);font-size:14px;padding:16px 0 12px;font-family:'Noto Sans KR',sans-serif;transition:color .15s}
-.back-btn:active{color:var(--text)}
-.day-num-lbl{font-size:11px;color:var(--text3);font-weight:500;letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px}
-.type-badge{display:inline-flex;align-items:center;gap:5px;font-size:12px;padding:4px 12px;border-radius:99px;margin-bottom:12px;font-weight:500}
-.day-ko-title{font-family:'Nanum Myeongjo',serif;font-size:26px;font-weight:700;color:var(--text);line-height:1.3;margin-bottom:5px}
-.day-en-title{font-size:14px;color:var(--text3);font-weight:300;margin-bottom:20px}
+/* WEEKS */
+.weeks-wrap { padding: 0 18px; }
+.week-section { margin-top: 8px; margin-bottom: 6px; }
+.week-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 16px; background: var(--navy2); border-radius: var(--radius);
+  cursor: pointer; margin-bottom: 8px; transition: background .15s;
+}
+.week-header:active { background: var(--navy3); }
+.week-title { font-size: 15px; font-weight: 700; color: var(--white); }
+.week-meta { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+.week-right { display: flex; align-items: center; gap: 10px; }
+.week-pct-badge {
+  font-size: 12px; font-weight: 700; padding: 4px 10px;
+  border-radius: 99px; background: rgba(255,255,255,.08); color: var(--text-muted);
+}
+.week-pct-badge.done { background: rgba(200,241,53,.2); color: var(--lime); }
+.week-toggle { font-size: 16px; color: var(--text-muted); transition: transform .2s; }
+.week-toggle.open { transform: rotate(180deg); }
+.week-cards { display: flex; flex-direction: column; gap: 8px; overflow: hidden; max-height: 0; transition: max-height .35s ease; }
+.week-cards.open { max-height: 2000px; }
 
-/* cards */
-.card{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:18px;margin-bottom:12px}
-.card-lbl{font-size:10px;color:var(--text3);font-weight:500;letter-spacing:.07em;text-transform:uppercase;margin-bottom:10px}
-.card-body{font-size:15px;line-height:1.85;color:var(--text)}
-.card-en{font-size:13px;color:var(--text3);margin-top:8px;line-height:1.7;font-weight:300}
-.verse-card{background:var(--gold-light);border:1px solid rgba(184,152,58,.25);border-radius:var(--radius);padding:18px;margin-bottom:12px}
-.verse-card .card-lbl{color:var(--gold)}
-.verse-text{font-family:'Nanum Myeongjo',serif;font-size:16px;line-height:1.75;color:var(--text);font-style:italic}
-
-/* timer */
-.timer-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:18px;margin-bottom:12px;text-align:center}
-.timer-lbl{font-size:10px;color:var(--text3);letter-spacing:.07em;text-transform:uppercase;margin-bottom:8px}
-.timer-disp{font-family:'Nanum Myeongjo',serif;font-size:3.5rem;font-weight:700;color:var(--accent);letter-spacing:.04em;margin:4px 0 8px}
-.timer-track{height:4px;background:var(--bg3);border-radius:99px;overflow:hidden;margin-bottom:14px}
-.timer-fill{height:4px;background:var(--accent);border-radius:99px;transition:width .8s linear}
-.timer-btns{display:flex;gap:10px;justify-content:center}
-.tbtn{padding:10px 22px;border-radius:var(--radius-sm);border:1px solid var(--border);background:none;cursor:pointer;font-size:14px;font-family:'Noto Sans KR',sans-serif;color:var(--text2);min-height:44px;transition:all .15s}
-.tbtn.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
-.tbtn:active{opacity:.8;transform:scale(.97)}
-
-/* action buttons */
-.done-btn{width:100%;padding:16px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);cursor:pointer;font-size:15px;font-family:'Noto Sans KR',sans-serif;color:var(--text);transition:all .2s;margin-bottom:10px;display:flex;align-items:center;justify-content:center;gap:8px;min-height:52px}
-.done-btn:active{opacity:.8}
-.done-btn.completed{background:var(--done-light);border-color:var(--done);color:var(--done)}
-.share-btn{width:100%;padding:14px;background:none;border:1px solid var(--border);border-radius:var(--radius);cursor:pointer;font-size:14px;font-family:'Noto Sans KR',sans-serif;color:var(--text2);transition:all .15s;margin-bottom:10px;display:flex;align-items:center;justify-content:center;gap:7px;min-height:48px}
-.share-btn:active{background:var(--bg2)}
-.day-nav{display:flex;gap:10px;margin-top:2px}
-.nav-btn{flex:1;padding:13px;background:none;border:1px solid var(--border);border-radius:var(--radius);cursor:pointer;font-size:14px;font-family:'Noto Sans KR',sans-serif;color:var(--text2);transition:all .15s;min-height:48px}
-.nav-btn:active:not(:disabled){background:var(--bg2)}
-.nav-btn:disabled{opacity:.3;cursor:not-allowed}
-
-/* reflection */
-.ref-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:18px;margin-bottom:12px}
-.ref-q{font-size:14px;font-weight:500;color:var(--text);margin-bottom:10px;line-height:1.6}
-.ref-input{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px;font-size:14px;font-family:'Noto Sans KR',sans-serif;color:var(--text);resize:none;min-height:90px;transition:border .15s}
-.ref-input:focus{outline:none;border-color:var(--accent2)}
-.ref-save{margin-top:8px;padding:10px 18px;background:var(--accent);color:#fff;border:none;border-radius:var(--radius-sm);cursor:pointer;font-size:13px;font-family:'Noto Sans KR',sans-serif;min-height:40px}
-.ref-save:active{opacity:.8}
-
-/* TOAST */
-.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--text);color:var(--bg);font-size:13px;padding:11px 22px;border-radius:var(--radius);z-index:200;transition:transform .3s ease;white-space:nowrap;font-family:'Noto Sans KR',sans-serif;max-width:90vw;text-align:center}
-.toast.show{transform:translateX(-50%) translateY(0)}
-
-/* CONFETTI */
-.conf-wrap{position:fixed;inset:0;pointer-events:none;z-index:999;overflow:hidden}
-.conf-piece{position:absolute;top:-10px;border-radius:2px;animation:confFall linear forwards}
-@keyframes confFall{to{transform:translateY(110vh) rotate(720deg);opacity:0}}
+/* DAY ROW */
+.day-row {
+  display: flex; align-items: center; background: var(--navy2);
+  border: 1px solid rgba(255,255,255,.06); border-radius: var(--radius);
+  padding: 14px 16px; cursor: pointer; transition: background .15s; position: relative; gap: 14px;
+}
+.day-row:active { background: var(--navy3); }
+.day-row.is-done { background: rgba(200,241,53,.08); border-color: rgba(200,241,53,.2); }
+.day-row.is-today { border-color: var(--sky); border-width: 1.5px; }
+.day-date-col { text-align: center; min-width: 34px; }
+.day-date-num { font-family: 'Nanum Myeongjo', serif; font-size: 19px; font-weight: 700; color: var(--white); line-height: 1; }
+.day-date-sub { font-size: 10px; color: var(--text-muted); margin-top: 2px; }
+.day-row.is-today .day-date-num { color: var(--sky); }
+.day-sep { width: 1px; height: 34px; background: rgba(255,255,255,.08); flex-shrink: 0; }
+.day-content { flex: 1; min-width: 0; }
+.day-ko { font-size: 14px; font-weight: 500; color: var(--white); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.day-en { font-size: 11px; color: var(--text-muted); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.day-chip-row { display: flex; align-items: center; gap: 6px; margin-top: 5px; }
+.day-chip { font-size: 10px; padding: 2px 8px; border-radius: 99px; font-weight: 500; }
+.chip-p { background: rgba(125,216,240,.15); color: var(--sky);  }
+.chip-b { background: rgba(200,241,53,.12); color: var(--lime); }
+.chip-d { background: rgba(255,179,209,.15); color: var(--pink); }
+.chip-w { background: rgba(255,179,209,.15); color: var(--pink); }
+.chip-g { background: rgba(200,241,53,.12); color: var(--lime); }
+.chip-s { background: rgba(255,255,255,.08); color: var(--text-muted); }
+.day-done-icon {
+  width: 24px; height: 24px; border-radius: 50%; background: var(--lime);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.day-done-icon span { color: var(--navy); font-size: 12px; font-weight: 700; }
 
 /* QR */
-.qr-wrap{text-align:center;padding:24px 20px;border-top:1px solid var(--border2);margin-top:8px}
-.qr-lbl{font-size:11px;color:var(--text3);margin-top:10px;line-height:1.6}
+.qr-wrap { text-align: center; padding: 24px 18px; border-top: 1px solid rgba(255,255,255,.06); margin-top: 12px; }
+.qr-lbl { font-size: 11px; color: var(--text-muted); margin-top: 10px; line-height: 1.6; }
 
-@media print{
-  .topbar,.timer-card,.share-btn,.done-btn,.day-nav,.back-btn,.week-toggle{display:none!important}
-  .week-cards{max-height:none!important}
-  body{background:#fff;color:#000}
+/* ══════════════════════════════
+   DAY PAGE
+══════════════════════════════ */
+.day-page-wrap { max-width: 480px; margin: 0 auto; padding: 0 18px 6rem; }
+.back-btn {
+  display: inline-flex; align-items: center; gap: 5px; background: none; border: none;
+  cursor: pointer; color: var(--text-muted); font-size: 14px;
+  padding: 16px 0 12px; font-family: 'Noto Sans KR', sans-serif; transition: color .15s;
+}
+.back-btn:active { color: var(--white); }
+.day-num-lbl { font-size: 11px; color: var(--text-muted); font-weight: 700; letter-spacing: .07em; text-transform: uppercase; margin-bottom: 7px; }
+.type-badge { display: inline-flex; align-items: center; font-size: 12px; padding: 4px 12px; border-radius: 99px; margin-bottom: 12px; font-weight: 700; }
+.day-ko-title { font-family: 'Nanum Myeongjo', serif; font-size: 26px; font-weight: 700; color: var(--white); line-height: 1.3; margin-bottom: 5px; }
+.day-en-title { font-size: 14px; color: var(--text-muted); font-weight: 300; margin-bottom: 20px; }
+
+/* CARDS */
+.card {
+  background: var(--navy2); border: 1px solid rgba(255,255,255,.07);
+  border-radius: var(--radius); padding: 18px; margin-bottom: 12px;
+}
+.card-lbl { font-size: 10px; color: var(--text-muted); font-weight: 700; letter-spacing: .08em; text-transform: uppercase; margin-bottom: 10px; }
+.card-body { font-size: 15px; line-height: 1.85; color: var(--text-on-navy); }
+.card-en { font-size: 13px; color: var(--text-muted); margin-top: 8px; line-height: 1.7; font-weight: 300; }
+
+.verse-card {
+  background: rgba(245,200,66,.1); border: 1px solid rgba(245,200,66,.2);
+  border-radius: var(--radius); padding: 18px; margin-bottom: 12px;
+}
+.verse-card .card-lbl { color: #f5c842; }
+.verse-text { font-family: 'Nanum Myeongjo', serif; font-size: 16px; line-height: 1.75; color: var(--white); font-style: italic; }
+
+/* TIMER */
+.timer-card {
+  background: var(--sky); border-radius: var(--radius); padding: 18px; margin-bottom: 12px;
+}
+.timer-card .card-lbl { color: var(--navy); opacity: .7; }
+.timer-disp { font-family: 'Nanum Myeongjo', serif; font-size: 3.8rem; font-weight: 700; color: var(--navy); letter-spacing: .04em; margin: 4px 0 8px; line-height: 1; }
+.timer-track { height: 5px; background: rgba(0,0,0,.15); border-radius: 99px; overflow: hidden; margin-bottom: 14px; }
+.timer-fill { height: 5px; background: var(--navy); border-radius: 99px; transition: width .8s linear; }
+.timer-btns { display: flex; gap: 10px; }
+.tbtn {
+  padding: 11px 20px; border-radius: var(--radius-sm); border: none;
+  background: rgba(0,0,0,.15); cursor: pointer; font-size: 14px;
+  font-family: 'Noto Sans KR', sans-serif; color: var(--navy); font-weight: 700;
+  min-height: 44px; transition: all .15s;
+}
+.tbtn.primary { background: var(--navy); color: var(--sky); }
+.tbtn:active { opacity: .75; transform: scale(.97); }
+
+/* ACTION BUTTONS */
+.done-btn {
+  width: 100%; padding: 16px; background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.12); border-radius: var(--radius);
+  cursor: pointer; font-size: 15px; font-family: 'Noto Sans KR', sans-serif;
+  color: var(--text-on-navy); font-weight: 700; transition: all .2s;
+  margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 52px;
+}
+.done-btn:active { opacity: .8; }
+.done-btn.completed { background: rgba(200,241,53,.15); border-color: var(--lime); color: var(--lime); }
+.share-btn {
+  width: 100%; padding: 14px; background: none;
+  border: 1px solid rgba(255,255,255,.12); border-radius: var(--radius);
+  cursor: pointer; font-size: 14px; font-family: 'Noto Sans KR', sans-serif;
+  color: var(--text-muted); transition: all .15s; margin-bottom: 10px;
+  display: flex; align-items: center; justify-content: center; gap: 7px; min-height: 48px;
+}
+.share-btn:active { background: rgba(255,255,255,.06); }
+.day-nav { display: flex; gap: 10px; }
+.nav-btn {
+  flex: 1; padding: 13px; background: rgba(255,255,255,.05);
+  border: 1px solid rgba(255,255,255,.1); border-radius: var(--radius);
+  cursor: pointer; font-size: 14px; font-family: 'Noto Sans KR', sans-serif;
+  color: var(--text-muted); transition: all .15s; min-height: 48px;
+}
+.nav-btn:active:not(:disabled) { background: rgba(255,255,255,.1); color: var(--white); }
+.nav-btn:disabled { opacity: .25; cursor: not-allowed; }
+
+/* REFLECTION */
+.ref-card { background: rgba(125,216,240,.08); border: 1px solid rgba(125,216,240,.2); border-radius: var(--radius); padding: 18px; margin-bottom: 12px; }
+.ref-card .card-lbl { color: var(--sky); }
+.ref-q { font-size: 14px; font-weight: 500; color: var(--white); margin-bottom: 10px; line-height: 1.6; }
+.ref-input {
+  width: 100%; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1);
+  border-radius: var(--radius-sm); padding: 12px; font-size: 14px;
+  font-family: 'Noto Sans KR', sans-serif; color: var(--white); resize: none; min-height: 90px;
+  transition: border .15s;
+}
+.ref-input:focus { outline: none; border-color: var(--sky); }
+.ref-save {
+  margin-top: 8px; padding: 10px 18px; background: var(--sky); color: var(--navy);
+  border: none; border-radius: var(--radius-sm); cursor: pointer;
+  font-size: 13px; font-family: 'Noto Sans KR', sans-serif; font-weight: 700; min-height: 40px;
+}
+.ref-save:active { opacity: .8; }
+
+/* TOAST */
+.toast {
+  position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(80px);
+  background: var(--white); color: var(--navy); font-size: 13px; font-weight: 700;
+  padding: 11px 22px; border-radius: var(--radius); z-index: 200;
+  transition: transform .3s ease; white-space: nowrap; font-family: 'Noto Sans KR', sans-serif;
+  max-width: 90vw; text-align: center;
+}
+.toast.show { transform: translateX(-50%) translateY(0); }
+
+/* CONFETTI */
+.conf-wrap { position: fixed; inset: 0; pointer-events: none; z-index: 999; overflow: hidden; }
+.conf-piece { position: absolute; top: -10px; border-radius: 2px; animation: confFall linear forwards; }
+@keyframes confFall { to { transform: translateY(110vh) rotate(720deg); opacity: 0; } }
+
+@media print {
+  .topbar, .timer-card, .share-btn, .done-btn, .day-nav, .back-btn { display: none !important; }
+  body { background: #fff; color: #000; }
 }
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 
-<!-- LANDING -->
+<!-- ── LANDING ── -->
 <div id="page-landing" class="page">
   <div class="land-tag">✦ 가정 예배 · Family Worship</div>
   <h1 class="land-title">28일<br><span>가정 예배</span><br>챌린지</h1>
@@ -208,61 +393,70 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
   </div>
 </div>
 
-<!-- CALENDAR -->
+<!-- ── CALENDAR ── -->
 <div id="page-cal" class="page">
   <div class="topbar">
-    <div>
-      <div class="topbar-logo">가정 예배</div>
-      <div class="topbar-sub">28-Day Challenge</div>
-    </div>
+    <div><div class="topbar-logo">가정 예배</div><div class="topbar-sub">28-Day Challenge</div></div>
     <div class="topbar-right">
       <button class="icon-btn" onclick="window.print()">🖨</button>
-      <button class="icon-btn" id="theme-btn" onclick="toggleTheme()">🌙</button>
     </div>
   </div>
-  <div class="cal-container">
-    <div class="cal-hero">
-      <div class="streak-row">
-        <div class="streak-flame" id="streak-flame">🔥</div>
-        <div class="streak-info">
-          <div class="streak-big"><span id="streak-num">0</span>일 연속</div>
-          <div class="streak-label" id="streak-label">오늘 챌린지를 완료해보세요</div>
+  <div class="cal-scroll">
+    <div class="cal-pad" style="padding-top:18px">
+
+      <!-- HERO CARDS -->
+      <div class="hero-row">
+        <div class="prog-card">
+          <div class="prog-card-label">진행률 · Progress</div>
+          <div>
+            <div class="prog-big" id="prog-big">0</div>
+            <div class="prog-sub">/ 28일 완료</div>
+          </div>
+          <div>
+            <div class="prog-mini-bar"><div class="prog-mini-fill" id="prog-mini" style="width:0%"></div></div>
+            <div style="font-size:10px;color:var(--navy);opacity:.5;margin-top:4px" id="prog-pct-lbl">0%</div>
+          </div>
         </div>
-        <div class="streak-done" id="streak-done">0 / 28</div>
+        <div class="streak-card">
+          <div class="streak-card-label">연속 · Streak</div>
+          <div>
+            <div class="streak-flame-big" id="streak-flame">✨</div>
+            <div class="streak-big" id="streak-big">0</div>
+            <div class="streak-sub" id="streak-sub">일 연속</div>
+          </div>
+        </div>
       </div>
-      <div class="today-card" id="today-card" onclick="goToToday()">
+
+      <!-- TODAY CARD -->
+      <div class="today-card" onclick="goToToday()">
         <div>
           <div class="today-tag">오늘의 챌린지 · Today</div>
-          <div class="today-ko" id="today-ko">—</div>
-          <div class="today-en" id="today-en"></div>
+          <div class="today-ko" id="today-ko">6월 1일부터 시작됩니다!</div>
+          <div class="today-en" id="today-en">Challenge begins June 1st</div>
         </div>
         <div class="today-arr">›</div>
       </div>
-      <div class="prog-wrap">
-        <div class="prog-row">
-          <span class="prog-label">전체 진행률</span>
-          <span class="prog-pct" id="prog-pct">0%</span>
-        </div>
-        <div class="prog-track"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
-      </div>
+
+      <!-- FAMILY SECTION -->
+      <div id="family-wrap"></div>
+
     </div>
+
+    <!-- WEEK SECTIONS -->
     <div class="weeks-wrap" id="weeks-wrap"></div>
+
     <div class="qr-wrap">
       <canvas id="qr-canvas" width="110" height="110"></canvas>
-      <div class="qr-lbl">QR코드로 사이트 공유<br>Scan to share</div>
+      <div class="qr-lbl">QR코드로 사이트 공유 · Scan to share</div>
     </div>
   </div>
 </div>
 
-<!-- DAY PAGE -->
+<!-- ── DAY PAGE ── -->
 <div id="page-day" class="page">
   <div class="topbar">
-    <div>
-      <div class="topbar-logo">가정 예배</div>
-    </div>
-    <div class="topbar-right">
-      <button class="icon-btn" id="theme-btn2" onclick="toggleTheme()">🌙</button>
-    </div>
+    <div><div class="topbar-logo">가정 예배</div></div>
+    <div class="topbar-right"></div>
   </div>
   <div class="day-page-wrap">
     <button class="back-btn" onclick="backToCal()">← 캘린더로 돌아가기</button>
@@ -271,7 +465,7 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
     <h1 class="day-ko-title" id="dp-ko"></h1>
     <div class="day-en-title" id="dp-en"></div>
     <div class="timer-card">
-      <div class="timer-lbl">⏱ 10분 타이머 · 10-Minute Timer</div>
+      <div class="card-lbl">⏱ 10분 타이머 · 10-Minute Timer</div>
       <div class="timer-disp" id="timer-disp">10:00</div>
       <div class="timer-track"><div class="timer-fill" id="timer-fill" style="width:100%"></div></div>
       <div class="timer-btns">
@@ -304,71 +498,94 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
   </div>
 </div>
 
+<!-- MEMBER MODAL -->
+<div class="modal-overlay" id="member-modal" onclick="closeMemberModal(event)">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="modal-title">가족 멤버 추가 / Add Member</div>
+    <input class="modal-input" id="member-name-input" placeholder="이름 입력 (예: 아빠, 엄마, 지수)" maxlength="10">
+    <div style="font-size:12px;color:var(--text-muted);margin-bottom:8px">색상 선택</div>
+    <div class="modal-colors">
+      <div class="color-dot av-lime selected" data-color="av-lime" onclick="selectColor(this)"></div>
+      <div class="color-dot av-sky"  data-color="av-sky"  onclick="selectColor(this)"></div>
+      <div class="color-dot av-pink" data-color="av-pink" onclick="selectColor(this)"></div>
+      <div class="color-dot av-gold" data-color="av-gold" onclick="selectColor(this)"></div>
+    </div>
+    <button class="modal-confirm" onclick="addMember()">추가하기</button>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 <div class="conf-wrap" id="conf-wrap"></div>
 
 <script>
-const DAY1=new Date(2025,5,1);
-const TOTAL=600;
-const WEEK_LABELS=['1주차 · Week 1','2주차 · Week 2','3주차 · Week 3','4주차 · Week 4'];
-const WEEK_DATES=['Jun 1–7','Jun 8–14','Jun 15–21','Jun 22–28'];
-const WEEKLY_Q=[
+const DAY1 = new Date(2025, 5, 1);
+const TOTAL = 600;
+const WEEK_LABELS = ['1주차 · Week 1','2주차 · Week 2','3주차 · Week 3','4주차 · Week 4'];
+const WEEK_DATES  = ['Jun 1–7','Jun 8–14','Jun 15–21','Jun 22–28'];
+const WEEKLY_Q = [
   '이번 주 가족과 가장 기억에 남는 예배 순간은?',
   '이번 주 챌린지 중 가장 어려웠던 것은?',
   '이번 주 하나님이 우리 가족에게 보여주신 것은?',
   '28일을 마치며: 우리 가족이 가장 달라진 점은?'
 ];
-const DAY_NAMES=['일','월','화','수','목','금','토'];
+const DAY_NAMES = ['일','월','화','수','목','금','토'];
 
-const DAYS=[
+const DAYS = [
   {ko:'하나님께 감사 한 가지',en:'One thank-you to God',type:'g',ch:'오늘 하루 가족 각자가 감사한 것 한 가지씩 말해보세요. 형식은 없어도 됩니다.',enc:'Each family member shares one thing they\'re grateful for. No format needed.',verse:'감사함으로 그의 문에 들어가며 — 시편 100:4',tip:'저녁 식사 때 한 명씩 돌아가며 말해보세요. 어린이도 함께!'},
-  {ko:'함께 부르는 찬양',en:'A song together',type:'w',ch:'좋아하는 찬양 한 곡을 함께 불러보세요. 음정은 중요하지 않아요.',enc:'Sing one worship song together. Pitch doesn\'t matter at all.',verse:'시와 찬송과 신령한 노래들로 서로 화답하며 — 엡 5:19',tip:'유튜브에서 가족이 아는 찬양을 틀어도 좋습니다.'},
+  {ko:'함께 부르는 찬양',en:'A song together',type:'w',ch:'좋아하는 찬양 한 곡을 함께 불러보세요. 음정은 중요하지 않아요.',enc:'Sing one worship song together. Pitch doesn\'t matter.',verse:'시와 찬송과 신령한 노래들로 서로 화답하며 — 엡 5:19',tip:'유튜브에서 가족이 아는 찬양을 틀어도 좋습니다.'},
   {ko:'짧은 성경 구절 읽기',en:'Read a short verse',type:'b',ch:'시편 23편을 함께 소리 내어 읽어보세요. 단 6절입니다.',enc:'Read Psalm 23 aloud together. Only 6 verses.',verse:'여호와는 나의 목자시니 내게 부족함이 없으리로다 — 시편 23:1',tip:'어린 아이가 있다면 한 절씩 번갈아 읽어보세요.'},
   {ko:'온 가족 30초 기도',en:'30-second family prayer',type:'p',ch:'가족 모두 손을 잡고 30초 기도를 드려보세요.',enc:'Hold hands and pray together for 30 seconds.',verse:'두세 사람이 내 이름으로 모인 곳에 — 마 18:20',tip:'\'감사합니다, 하나님\'으로 시작해도 충분해요.'},
   {ko:'가족의 좋은 점 찾기',en:'Spot the good',type:'d',ch:'가족 구성원 한 명의 좋은 점을 서로 이야기해보세요.',enc:'Share one good thing you noticed about a family member.',verse:'서로 친절하게 하며 불쌍히 여기며 — 엡 4:32',tip:'아이들이 먼저 말할 수 있도록 기회를 주세요.'},
   {ko:'저녁 식탁 기도',en:'Mealtime prayer',type:'p',ch:'저녁 식사 전 온 가족이 함께 식사 기도를 드려보세요.',enc:'Pray together as a whole family before dinner.',verse:'모든 것을 감사함으로 받으면 버릴 것이 없나니 — 딤전 4:4-5',tip:'어른이 아닌 아이에게 기도를 부탁해보세요.'},
   {ko:'성경 속 가족 이야기',en:'A Bible family story',type:'b',ch:'룻과 나오미 이야기(룻 1:16-17)를 함께 읽고 느낌을 나눠보세요.',enc:'Read Ruth 1:16-17 together and share what it means.',verse:'당신이 가는 곳에 나도 가고 — 룻 1:16',tip:'\'가족에게 이런 사람이 되고 싶다\'고 나눠보세요.'},
   {ko:'서로를 위해 기도하기',en:'Pray for each other',type:'p',ch:'각자 한 사람씩 지명하여 그를 위해 기도해보세요.',enc:'Name one family member and pray specifically for them.',verse:'서로를 위하여 기도하라 — 약 5:16',tip:'2주차 시작을 기도로 열어보세요.'},
-  {ko:'감사 일기 쓰기',en:'Gratitude journal',type:'g',ch:'가족 각자 이번 주 감사한 일 3가지를 종이에 써보세요.',enc:'Each person writes three things they\'re grateful for this week.',verse:'항상 기뻐하라 범사에 감사하라 — 살전 5:16,18',tip:'냉장고에 붙여두면 좋습니다.'},
+  {ko:'감사 일기 쓰기',en:'Gratitude journal',type:'g',ch:'가족 각자 이번 주 감사한 일 3가지를 종이에 써보세요.',enc:'Each person writes three things they\'re grateful for.',verse:'항상 기뻐하라 범사에 감사하라 — 살전 5:16,18',tip:'냉장고에 붙여두면 좋습니다.'},
   {ko:'찬양으로 하루 시작',en:'Start the day with worship',type:'w',ch:'아침에 일어나서 가족과 함께 찬양 한 곡을 들어보세요.',enc:'Start the morning by listening to one worship song.',verse:'주를 찬양하는 것이 선함이여 — 시편 92:1',tip:'유튜브 어린이 찬양도, 어른 찬양도 좋아요.'},
-  {ko:'말씀 한 구절 외우기',en:'Memorize one verse',type:'b',ch:'요한복음 3:16을 함께 외워보세요. 오늘 하루 세 번 반복해보세요.',enc:'Memorize John 3:16 together. Repeat it three times.',verse:'하나님이 세상을 이처럼 사랑하사 — 요 3:16',tip:'포스트잇에 써서 거울에 붙여두세요.'},
-  {ko:'가족 대화: 믿음이란?',en:'Talk: what is faith?',type:'d',ch:'\'나에게 믿음은 어떤 의미인가요?\' 가족과 함께 이야기해보세요.',enc:'Share what faith means to you. Ask every family member.',verse:'믿음은 바라는 것들의 실상이요 — 히 11:1',tip:'아이들의 솔직한 대답이 가장 아름다운 신학입니다.'},
-  {ko:'용서를 구하는 기도',en:'A prayer of forgiveness',type:'p',ch:'오늘 하루 잘못한 일을 생각하며 함께 회개 기도를 드려보세요.',enc:'Reflect on today and pray together for forgiveness.',verse:'우리가 우리에게 죄 지은 자를 사하여 준 것 같이 — 마 6:12',tip:'판단 없이 나눌 수 있는 분위기를 만들어 주세요.'},
+  {ko:'말씀 한 구절 외우기',en:'Memorize one verse',type:'b',ch:'요한복음 3:16을 함께 외워보세요. 하루 세 번 반복해요.',enc:'Memorize John 3:16 together. Repeat it three times.',verse:'하나님이 세상을 이처럼 사랑하사 — 요 3:16',tip:'포스트잇에 써서 거울에 붙여두세요.'},
+  {ko:'가족 대화: 믿음이란?',en:'Talk: what is faith?',type:'d',ch:'\'나에게 믿음은 어떤 의미인가요?\' 가족과 이야기해보세요.',enc:'Share what faith means to you. Ask every family member.',verse:'믿음은 바라는 것들의 실상이요 — 히 11:1',tip:'아이들의 솔직한 대답이 가장 아름다운 신학입니다.'},
+  {ko:'용서를 구하는 기도',en:'A prayer of forgiveness',type:'p',ch:'오늘 잘못한 일을 생각하며 함께 회개 기도를 드려보세요.',enc:'Reflect on today and pray together for forgiveness.',verse:'우리가 우리에게 죄 지은 자를 사하여 준 것 같이 — 마 6:12',tip:'판단 없이 나눌 수 있는 분위기를 만들어 주세요.'},
   {ko:'세상을 위한 기도',en:'Pray for the world',type:'p',ch:'이웃, 나라, 세계를 위해 기도해보세요.',enc:'Pray for a neighbor, your country, and the world.',verse:'내 집은 만민이 기도하는 집이라 — 사 56:7',tip:'뉴스에서 본 어려운 상황을 기도 제목으로 삼아보세요.'},
-  {ko:'시편 낭독하기',en:'Read a psalm aloud',type:'b',ch:'시편 100편을 가족이 한 절씩 돌아가며 낭독해보세요.',enc:'Read Psalm 100 together, taking turns verse by verse.',verse:'온 땅이여 여호와께 즐거운 소리를 낼지어다 — 시편 100:1',tip:'해석하지 않아도 됩니다. 소리 내어 읽는 것만으로 충분해요.'},
+  {ko:'시편 낭독하기',en:'Read a psalm aloud',type:'b',ch:'시편 100편을 가족이 한 절씩 돌아가며 낭독해보세요.',enc:'Read Psalm 100, taking turns verse by verse.',verse:'온 땅이여 여호와께 즐거운 소리를 낼지어다 — 시편 100:1',tip:'소리 내어 읽는 것만으로 충분합니다.'},
   {ko:'가족 찬양 플레이리스트',en:'Make a worship playlist',type:'w',ch:'가족이 좋아하는 찬양 5곡을 모아 플레이리스트를 만들어보세요.',enc:'Make a family playlist of 5 favorite worship songs.',verse:'새 노래로 여호와께 노래하라 — 시편 98:1',tip:'다음 가정 예배 때 계속 쓸 수 있어요.'},
-  {ko:'기도 제목 나누기',en:'Share prayer requests',type:'p',ch:'각 가족이 요즘 마음에 있는 기도 제목을 하나씩 나눠보세요.',enc:'Each person shares one prayer request on their heart.',verse:'아무것도 염려하지 말고 기도와 간구로 — 빌 4:6',tip:'나눈 기도 제목을 적어두고 나중에 응답을 확인해보세요.'},
-  {ko:'감사 편지 쓰기',en:'Write a thank-you note',type:'g',ch:'가족 중 한 명에게 감사 편지를 짧게 써서 전달해보세요.',enc:'Write a short thank-you note to one family member.',verse:'사랑은 오래 참고 사랑은 온유하며 — 고전 13:4',tip:'손으로 쓴 편지가 디지털 메시지보다 훨씬 특별합니다.'},
-  {ko:'성경 속 약속 찾기',en:'Find a promise in scripture',type:'b',ch:'성경에서 하나님의 약속 한 가지를 찾아 함께 읽어보세요.',enc:'Find one promise from God in the Bible and read it together.',verse:'내가 너와 함께 있어 네가 어디로 가든지 — 창 28:15',tip:'\'두려워하지 말라\'는 구절이 성경에 365번 나온대요.'},
+  {ko:'기도 제목 나누기',en:'Share prayer requests',type:'p',ch:'각 가족이 요즘 마음에 있는 기도 제목을 하나씩 나눠보세요.',enc:'Each person shares one prayer request on their heart.',verse:'아무것도 염려하지 말고 기도와 간구로 — 빌 4:6',tip:'나눈 기도 제목을 적어두고 응답을 확인해보세요.'},
+  {ko:'감사 편지 쓰기',en:'Write a thank-you note',type:'g',ch:'가족 중 한 명에게 감사 편지를 짧게 써서 전달해보세요.',enc:'Write a short thank-you note to one family member.',verse:'사랑은 오래 참고 사랑은 온유하며 — 고전 13:4',tip:'손으로 쓴 편지가 훨씬 특별합니다.'},
+  {ko:'성경 속 약속 찾기',en:'Find a promise in scripture',type:'b',ch:'성경에서 하나님의 약속 한 가지를 찾아 함께 읽어보세요.',enc:'Find one promise from God in the Bible and read it.',verse:'내가 너와 함께 있어 네가 어디로 가든지 — 창 28:15',tip:'\'두려워하지 말라\'는 구절이 성경에 365번 나온대요.'},
   {ko:'어릴 때 신앙 이야기',en:'Share a faith memory',type:'d',ch:'어릴 때 기억에 남는 믿음의 경험을 가족과 나눠보세요.',enc:'Share a memorable faith experience from childhood.',verse:'이 일들을 네 자녀와 자녀의 자녀에게 알게 하라 — 신 4:9',tip:'부모의 신앙 이야기는 자녀에게 큰 유산이 됩니다.'},
-  {ko:'침묵 기도 3분',en:'3 minutes of silent prayer',type:'p',ch:'3분간 조용히 앉아 각자 하나님께 마음속으로 기도해보세요.',enc:'Sit quietly for 3 minutes and pray silently to God.',verse:'여호와 앞에 잠잠하고 참고 기다리라 — 시편 37:7',tip:'시끄러운 가정에서 침묵은 특별한 선물이 될 수 있어요.'},
+  {ko:'침묵 기도 3분',en:'3 minutes of silent prayer',type:'p',ch:'3분간 조용히 앉아 각자 하나님께 마음속으로 기도해보세요.',enc:'Sit quietly for 3 minutes and pray silently.',verse:'여호와 앞에 잠잠하고 참고 기다리라 — 시편 37:7',tip:'시끄러운 가정에서 침묵은 특별한 선물이 될 수 있어요.'},
   {ko:'찬양하며 청소하기',en:'Clean house with worship',type:'w',ch:'찬양을 틀어놓고 온 가족이 함께 집을 청소해보세요.',enc:'Play worship music and clean the house together.',verse:'너희 몸으로 하나님께 영광을 돌리라 — 고전 6:20',tip:'일상을 예배로 만드는 좋은 방법입니다.'},
-  {ko:'가족 기도 노트 만들기',en:'Start a prayer journal',type:'g',ch:'기도 노트를 마련하고 첫 기도 제목들을 함께 적어보세요.',enc:'Get a notebook and write your first prayer requests together.',verse:'여호와께서 우리를 위하여 큰 일을 행하셨으니 — 시편 126:3',tip:'6개월 후 다시 펼쳐보면 응답된 기도들을 볼 수 있어요.'},
-  {ko:'이웃을 위한 기도',en:'Pray for a neighbor',type:'p',ch:'우리 가족 주변의 이웃 한 명을 생각하며 기도해보세요.',enc:'Think of one neighbor and pray for them together.',verse:'네 이웃을 네 몸과 같이 사랑하라 — 마 22:39',tip:'기도 후 이웃에게 작은 친절을 베풀어보세요.'},
-  {ko:'하나님의 사랑 읽기',en:'Read about God\'s love',type:'b',ch:'요한복음 15:9-13을 읽고 하나님의 사랑을 이야기해보세요.',enc:'Read John 15:9-13 and talk about what God\'s love looks like.',verse:'내가 너희를 사랑한 것 같이 너희도 서로 사랑하라 — 요 15:12',tip:'가족 서로에게 \'나는 너를 사랑해\'라고 말해보세요.'},
+  {ko:'가족 기도 노트 만들기',en:'Start a prayer journal',type:'g',ch:'기도 노트를 마련하고 첫 기도 제목들을 함께 적어보세요.',enc:'Get a notebook and write your first prayer requests.',verse:'여호와께서 우리를 위하여 큰 일을 행하셨으니 — 시편 126:3',tip:'6개월 후 응답된 기도들을 볼 수 있어요.'},
+  {ko:'이웃을 위한 기도',en:'Pray for a neighbor',type:'p',ch:'우리 가족 주변의 이웃 한 명을 생각하며 기도해보세요.',enc:'Think of one neighbor and pray for them.',verse:'네 이웃을 네 몸과 같이 사랑하라 — 마 22:39',tip:'기도 후 이웃에게 작은 친절을 베풀어보세요.'},
+  {ko:'하나님의 사랑 읽기',en:'Read about God\'s love',type:'b',ch:'요한복음 15:9-13을 읽고 하나님의 사랑을 이야기해보세요.',enc:'Read John 15:9-13 and talk about God\'s love.',verse:'내가 너희를 사랑한 것 같이 너희도 서로 사랑하라 — 요 15:12',tip:'가족 서로에게 \'나는 너를 사랑해\'라고 말해보세요.'},
   {ko:'감사 찬양 부르기',en:'Sing a song of thanks',type:'w',ch:'감사를 표현하는 찬양을 함께 불러보세요.',enc:'Sing a thanksgiving song together.',verse:'감사로 제사를 드리는 자가 나를 영화롭게 하나니 — 시편 50:23',tip:'찬양은 가장 쉬운 형태의 기도입니다.'},
-  {ko:'내년 가족 기도 제목',en:'Prayer goals for the year',type:'d',ch:'앞으로 1년 동안 가족으로서 이루고 싶은 것을 기도 제목으로 만들어보세요.',enc:'Write down what you want to pray for as a family in the coming year.',verse:'사람이 마음으로 자기의 길을 계획할지라도 — 잠 16:9',tip:'\'주일 예배 함께 드리기\'도 아름다운 목표입니다.'},
-  {ko:'가정 예배 서약',en:'Family worship commitment',type:'s',ch:'가정 예배를 정기적으로 드리겠다는 서약을 함께 작성하고 서명해보세요.',enc:'Write and sign a commitment to worship together regularly.',verse:'나와 내 집은 여호와를 섬기겠노라 — 수 24:15',tip:'서약서를 출력해서 가족이 잘 보이는 곳에 붙여두세요.'},
-  {ko:'28일 감사 예배',en:'Final thanksgiving worship',type:'w',ch:'28일을 마치며 온 가족이 함께 감사 예배를 드려보세요. 찬양, 기도, 말씀을 모두 포함해서!',enc:'Celebrate 28 days with a full family worship service — song, prayer, and scripture!',verse:'여호와께 감사하라 그는 선하시며 — 시편 107:1',tip:'오늘은 특별합니다. 함께한 28일을 축하하세요!'},
+  {ko:'내년 가족 기도 제목',en:'Prayer goals for the year',type:'d',ch:'앞으로 1년 동안 가족으로서 이루고 싶은 것을 기도 제목으로 만들어보세요.',enc:'Write down what you want to pray for as a family.',verse:'사람이 마음으로 자기의 길을 계획할지라도 — 잠 16:9',tip:'\'주일 예배 함께 드리기\'도 아름다운 목표입니다.'},
+  {ko:'가정 예배 서약',en:'Family worship commitment',type:'s',ch:'가정 예배를 정기적으로 드리겠다는 서약을 함께 작성하고 서명해보세요.',enc:'Write and sign a commitment to worship together regularly.',verse:'나와 내 집은 여호와를 섬기겠노라 — 수 24:15',tip:'서약서를 출력해서 잘 보이는 곳에 붙여두세요.'},
+  {ko:'28일 감사 예배',en:'Final thanksgiving worship',type:'w',ch:'28일을 마치며 온 가족이 함께 감사 예배를 드려보세요. 찬양, 기도, 말씀을 모두 포함해서!',enc:'Celebrate 28 days with a full family worship service!',verse:'여호와께 감사하라 그는 선하시며 — 시편 107:1',tip:'오늘은 특별합니다. 함께한 28일을 축하하세요!'},
 ];
 
-const TYPE={
-  p:{label:'기도 / Prayer',   bg:'var(--chip-p-bg)',color:'var(--chip-p-c)'},
-  b:{label:'성경 / Bible',    bg:'var(--chip-b-bg)',color:'var(--chip-b-c)'},
-  d:{label:'대화 / Discussion',bg:'var(--chip-d-bg)',color:'var(--chip-d-c)'},
-  w:{label:'찬양 / Worship',  bg:'var(--chip-w-bg)',color:'var(--chip-w-c)'},
-  g:{label:'감사 / Gratitude',bg:'var(--chip-g-bg)',color:'var(--chip-g-c)'},
-  s:{label:'실천 / Practice', bg:'var(--chip-s-bg)',color:'var(--chip-s-c)'},
+const TYPE = {
+  p:{label:'기도 / Prayer',   bg:'rgba(125,216,240,.15)',color:'var(--sky)'},
+  b:{label:'성경 / Bible',    bg:'rgba(200,241,53,.12)', color:'var(--lime)'},
+  d:{label:'대화 / Discussion',bg:'rgba(255,179,209,.15)',color:'var(--pink)'},
+  w:{label:'찬양 / Worship',  bg:'rgba(255,179,209,.15)',color:'var(--pink)'},
+  g:{label:'감사 / Gratitude',bg:'rgba(200,241,53,.12)', color:'var(--lime)'},
+  s:{label:'실천 / Practice', bg:'rgba(255,255,255,.08)',color:'var(--text-muted)'},
 };
+const AV_COLORS = ['av-lime','av-sky','av-pink','av-gold'];
+const BAR_COLORS = { 'av-lime':'#c8f135','av-sky':'#7dd8f0','av-pink':'#ffb3d1','av-gold':'#f5c842' };
 
-let done=[],reflections={},theme='light',curDay=0,timerSecs=TOTAL,timerRunning=false,timerInterval=null;
+let done=[], reflections={}, members=[], curDay=0, timerSecs=TOTAL, timerRunning=false, timerInterval=null, selColor='av-lime';
 try{done=JSON.parse(localStorage.getItem('gj28_done')||'[]');}catch(e){}
 try{reflections=JSON.parse(localStorage.getItem('gj28_ref')||'{}');}catch(e){}
-try{theme=localStorage.getItem('gj28_theme')||'light';}catch(e){}
-document.documentElement.setAttribute('data-theme',theme);
-updateThemeBtns();
+try{members=JSON.parse(localStorage.getItem('gj28_members')||'[]');}catch(e){}
 
-function save(){try{localStorage.setItem('gj28_done',JSON.stringify(done));localStorage.setItem('gj28_ref',JSON.stringify(reflections));}catch(e){}}
+function saveAll(){
+  try{
+    localStorage.setItem('gj28_done',JSON.stringify(done));
+    localStorage.setItem('gj28_ref',JSON.stringify(reflections));
+    localStorage.setItem('gj28_members',JSON.stringify(members));
+  }catch(e){}
+}
 
 function showPage(id,slide){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active','slide-in'));
@@ -383,18 +600,15 @@ function todayIdx(){
   const diff=Math.round((new Date(t.getFullYear(),t.getMonth(),t.getDate())-DAY1)/86400000);
   return(diff>=0&&diff<28)?diff:-1;
 }
-
 function calcStreak(){
-  const ti=todayIdx();
-  if(ti<0)return 0;
+  const ti=todayIdx(); if(ti<0)return 0;
   let s=0;
   for(let i=ti;i>=0;i--){if(done.includes(i))s++;else break;}
   return s;
 }
-
 function dayDate(idx){
-  const d=new Date(DAY1);d.setDate(d.getDate()+idx);
-  return {m:d.getMonth()+1,d:d.getDate(),dow:DAY_NAMES[d.getDay()]};
+  const d=new Date(DAY1); d.setDate(d.getDate()+idx);
+  return{m:d.getMonth()+1,d:d.getDate(),dow:DAY_NAMES[d.getDay()]};
 }
 
 function goToCalendar(){showPage('page-cal',true);renderCal();}
@@ -402,58 +616,104 @@ function backToCal(){showPage('page-cal',false);renderCal();}
 function goToToday(){const i=todayIdx();if(i>=0)openDay(i);}
 
 function renderCal(){
-  const streak=calcStreak();
-  document.getElementById('streak-num').textContent=streak;
-  document.getElementById('streak-flame').textContent=streak>0?'🔥':'✨';
-  document.getElementById('streak-label').textContent=streak>=7?'한 주 완주! 대단해요!':streak>0?'계속 이어가세요!':'오늘 챌린지를 완료해보세요';
-  document.getElementById('streak-done').textContent=done.length+' / 28';
+  // progress cards
   const pct=Math.round(done.length/28*100);
-  document.getElementById('prog-fill').style.width=pct+'%';
-  document.getElementById('prog-pct').textContent=pct+'%';
+  document.getElementById('prog-big').textContent=done.length;
+  document.getElementById('prog-mini').style.width=pct+'%';
+  document.getElementById('prog-pct-lbl').textContent=pct+'%';
+  const streak=calcStreak();
+  document.getElementById('streak-big').textContent=streak;
+  document.getElementById('streak-flame').textContent=streak>0?'🔥':'✨';
+  document.getElementById('streak-sub').textContent=streak>=7?'한 주 완주!':streak>0?'일 연속':'일 연속';
+  // today banner
   const ti=todayIdx();
   if(ti>=0){
     document.getElementById('today-ko').textContent='Day '+(ti+1)+' · '+DAYS[ti].ko;
     document.getElementById('today-en').textContent=DAYS[ti].en;
-  }else{
-    document.getElementById('today-ko').textContent='6월 1일부터 시작됩니다!';
-    document.getElementById('today-en').textContent='Challenge begins June 1st';
   }
+  renderMembers();
   renderWeeks();
   drawQR();
 }
 
+/* MEMBERS */
+function renderMembers(){
+  const list=document.getElementById('member-list');
+  list.innerHTML='';
+  if(members.length===0){
+    list.innerHTML='<div style="font-size:13px;color:var(--text-muted);text-align:center;padding:8px 0">아직 멤버가 없어요. 아래 버튼으로 추가해보세요!</div>';
+    return;
+  }
+  members.forEach(m=>{
+    const pct=Math.round((m.done||0)/28*100);
+    const row=document.createElement('div');
+    row.className='member-row';
+    row.innerHTML=`
+      <div class="member-avatar ${m.color}">${m.name[0]}</div>
+      <div class="member-info">
+        <div class="member-name">${m.name}</div>
+        <div class="member-bar-bg">
+          <div class="member-bar-fill" style="width:${pct}%;background:${BAR_COLORS[m.color]||'#c8f135'}"></div>
+        </div>
+      </div>
+      <div class="member-pct" style="color:${BAR_COLORS[m.color]||'#c8f135'}">${pct}%</div>`;
+    list.appendChild(row);
+  });
+}
+
+function openMemberModal(){document.getElementById('member-modal').classList.add('open');}
+function closeMemberModal(e){if(e.target===document.getElementById('member-modal'))document.getElementById('member-modal').classList.remove('open');}
+function selectColor(el){
+  document.querySelectorAll('.color-dot').forEach(d=>d.classList.remove('selected'));
+  el.classList.add('selected');
+  selColor=el.dataset.color;
+}
+function addMember(){
+  const name=document.getElementById('member-name-input').value.trim();
+  if(!name){showToast('이름을 입력해주세요');return;}
+  members.push({name,color:selColor,done:0});
+  saveAll();
+  document.getElementById('member-modal').classList.remove('open');
+  document.getElementById('member-name-input').value='';
+  renderMembers();
+  showToast(name+' 추가되었습니다 ✓');
+}
+
+/* WEEKS */
 function renderWeeks(){
   const wrap=document.getElementById('weeks-wrap');
   wrap.innerHTML='';
+  const ti=todayIdx();
   for(let w=0;w<4;w++){
-    const startIdx=w*7;
-    const weekDone=DAYS.slice(startIdx,startIdx+7).filter((_,i)=>done.includes(startIdx+i)).length;
-    const isCurrentWeek=()=>{const ti=todayIdx();return ti>=startIdx&&ti<startIdx+7;};
-    const open=isCurrentWeek()||weekDone>0;
-
+    const s=w*7;
+    const weekDone=DAYS.slice(s,s+7).filter((_,i)=>done.includes(s+i)).length;
+    const isCur=ti>=s&&ti<s+7;
+    const open=isCur||weekDone>0;
+    const allDone=weekDone===7;
     const sec=document.createElement('div');
     sec.className='week-section';
     sec.innerHTML=`
       <div class="week-header" onclick="toggleWeek(${w})">
         <div>
           <div class="week-title">${WEEK_LABELS[w]}</div>
-          <div class="week-prog" style="font-size:11px;color:var(--text3);margin-top:2px">${WEEK_DATES[w]} · ${weekDone}/7 완료</div>
+          <div class="week-meta">${WEEK_DATES[w]}</div>
         </div>
-        <button class="week-toggle ${open?'open':''}" id="wtog-${w}">⌄</button>
+        <div class="week-right">
+          <span class="week-pct-badge${allDone?' done':''}">${weekDone}/7</span>
+          <span class="week-toggle${open?' open':''}" id="wtog-${w}">⌄</span>
+        </div>
       </div>
-      <div class="week-cards ${open?'open':''}" id="wcards-${w}"></div>`;
+      <div class="week-cards${open?' open':''}" id="wcards-${w}"></div>`;
     wrap.appendChild(sec);
-
     const cards=sec.querySelector(`#wcards-${w}`);
     for(let i=0;i<7;i++){
-      const idx=startIdx+i;
+      const idx=s+i;
       const d=DAYS[idx];
       const isDone=done.includes(idx);
-      const isTi=idx===todayIdx();
+      const isT=idx===ti;
       const dd=dayDate(idx);
-      const t=TYPE[d.type];
       const row=document.createElement('div');
-      row.className='day-row'+(isDone?' is-done':'')+(isTi?' is-today':'');
+      row.className='day-row'+(isDone?' is-done':'')+(isT?' is-today':'');
       row.innerHTML=`
         <div class="day-date-col">
           <div class="day-date-num">${dd.d}</div>
@@ -464,11 +724,11 @@ function renderWeeks(){
           <div class="day-ko">${d.ko}</div>
           <div class="day-en">${d.en}</div>
           <div class="day-chip-row">
-            <span class="day-chip" style="background:${t.bg};color:${t.color}">${t.label.split(' / ')[0]}</span>
-            ${isTi?'<span style="font-size:10px;color:var(--accent);font-weight:500">오늘</span>':''}
+            <span class="day-chip chip-${d.type}">${TYPE[d.type].label.split(' / ')[0]}</span>
+            ${isT?'<span style="font-size:10px;color:var(--sky);font-weight:700">오늘</span>':''}
           </div>
         </div>
-        ${isDone?'<div class="day-done-icon"><span>✓</span></div>':'<div style="width:22px;flex-shrink:0"></div>'}`;
+        ${isDone?'<div class="day-done-icon"><span>✓</span></div>':'<div style="width:24px;flex-shrink:0"></div>'}`;
       row.onclick=()=>openDay(idx);
       cards.appendChild(row);
     }
@@ -476,13 +736,14 @@ function renderWeeks(){
 }
 
 function toggleWeek(w){
-  const cards=document.getElementById('wcards-'+w);
-  const tog=document.getElementById('wtog-'+w);
-  const isOpen=cards.classList.contains('open');
-  cards.classList.toggle('open',!isOpen);
-  tog.classList.toggle('open',!isOpen);
+  const c=document.getElementById('wcards-'+w);
+  const t=document.getElementById('wtog-'+w);
+  const o=c.classList.contains('open');
+  c.classList.toggle('open',!o);
+  t.classList.toggle('open',!o);
 }
 
+/* DAY PAGE */
 function openDay(idx){
   curDay=idx;
   const d=DAYS[idx];
@@ -503,7 +764,6 @@ function openDay(idx){
   renderRef(idx);
   showPage('page-day',true);
 }
-
 function renderRef(idx){
   const wk=Math.floor(idx/7);
   const isLast=(idx%7===6)||idx===27;
@@ -517,33 +777,31 @@ function renderRef(idx){
     <button class="ref-save" onclick="saveRef(${wk+1})">저장 Save</button>
   </div>`;
 }
-
-function saveRef(wk){reflections['w'+wk]=document.getElementById('ref-inp').value;save();showToast('저장되었습니다 ✓');}
-
+function saveRef(wk){reflections['w'+wk]=document.getElementById('ref-inp').value;saveAll();showToast('저장되었습니다 ✓');}
 function updateDoneBtn(){
   const isDone=done.includes(curDay);
-  const btn=document.getElementById('done-btn');
-  btn.className='done-btn'+(isDone?' completed':'');
+  document.getElementById('done-btn').className='done-btn'+(isDone?' completed':'');
   document.getElementById('done-text').textContent=isDone?'✓ 완료! 잘 하셨어요!':'✓ 오늘 챌린지 완료 / Mark as done';
 }
-
 function toggleDone(){
   const i=done.indexOf(curDay);
   if(i>-1)done.splice(i,1);
-  else{done.push(curDay);if(done.length===28)setTimeout(launchConfetti,300);else showToast('완료! 🙏 Day '+(curDay+1)+' done');}
-  save();updateDoneBtn();
+  else{
+    done.push(curDay);
+    if(done.length===28)setTimeout(launchConfetti,300);
+    else showToast('완료! 🙏 Day '+(curDay+1)+' done');
+  }
+  saveAll();updateDoneBtn();
 }
-
 function navDay(dir){const n=curDay+dir;if(n>=0&&n<28)openDay(n);}
-
 function shareDay(){
   const d=DAYS[curDay];
   const msg='[28일 가정 예배 챌린지]\n\nDay '+(curDay+1)+': '+d.ko+'\n\n'+d.ch+'\n\n말씀: '+d.verse;
   if(navigator.share){navigator.share({title:'28일 가정 예배 챌린지',text:msg}).catch(()=>{});}
-  else{try{window.open('https://open.kakao.com/o/share?text='+encodeURIComponent(msg),'_blank');}catch(e){navigator.clipboard&&navigator.clipboard.writeText(msg);showToast('클립보드에 복사되었습니다!');}}
+  else{try{window.open('https://open.kakao.com/o/share?text='+encodeURIComponent(msg),'_blank');}catch(e){navigator.clipboard&&navigator.clipboard.writeText(msg);showToast('클립보드에 복사됐어요!');}}
 }
 
-// TIMER
+/* TIMER */
 function timerStart(){
   if(timerRunning){clearInterval(timerInterval);timerRunning=false;document.getElementById('tbtn-start').textContent='재개 Resume';}
   else{timerRunning=true;document.getElementById('tbtn-start').textContent='일시정지 Pause';
@@ -556,48 +814,218 @@ function updateTimerUI(){
   document.getElementById('timer-fill').style.width=Math.round(timerSecs/TOTAL*100)+'%';
 }
 
-// THEME
-function toggleTheme(){theme=theme==='light'?'dark':'light';document.documentElement.setAttribute('data-theme',theme);try{localStorage.setItem('gj28_theme',theme);}catch(e){}updateThemeBtns();}
-function updateThemeBtns(){const ic=theme==='dark'?'☀️':'🌙';document.querySelectorAll('#theme-btn,#theme-btn2').forEach(b=>b.textContent=ic);}
-
-// CONFETTI
+/* CONFETTI */
 function launchConfetti(){
   const wrap=document.getElementById('conf-wrap');wrap.innerHTML='';
-  const colors=['#3d5a3e','#b8983a','#6b8f6c','#d4537e','#378add','#ef9f27'];
-  for(let i=0;i<70;i++){
+  const cols=['#c8f135','#7dd8f0','#ffb3d1','#f5c842','#ffffff'];
+  for(let i=0;i<80;i++){
     const p=document.createElement('div');p.className='conf-piece';
-    p.style.cssText='left:'+Math.random()*100+'vw;background:'+colors[i%colors.length]+';width:'+(Math.random()*7+4)+'px;height:'+(Math.random()*7+4)+'px;border-radius:'+(Math.random()>.5?'50%':'2px')+';animation-duration:'+(Math.random()*2+1.5)+'s;animation-delay:'+(Math.random()*.8)+'s';
+    p.style.cssText='left:'+Math.random()*100+'vw;background:'+cols[i%cols.length]+';width:'+(Math.random()*8+4)+'px;height:'+(Math.random()*8+4)+'px;border-radius:'+(Math.random()>.5?'50%':'3px')+';animation-duration:'+(Math.random()*2+1.5)+'s;animation-delay:'+(Math.random()*.8)+'s';
     wrap.appendChild(p);
   }
   showToast('🎉 28일 완주! Congratulations!');
-  setTimeout(()=>wrap.innerHTML='',4000);
+  setTimeout(()=>wrap.innerHTML='',4500);
 }
 
-// TOAST
+/* TOAST */
 let toastT=null;
-function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');if(toastT)clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),2600);}
+function showToast(msg){
+  const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');
+  if(toastT)clearTimeout(toastT);
+  toastT=setTimeout(()=>t.classList.remove('show'),2600);
+}
 
-// QR
+/* QR */
 function drawQR(){
   const canvas=document.getElementById('qr-canvas');if(!canvas)return;
   const ctx=canvas.getContext('2d'),n=21,sz=110,cell=Math.floor(sz/n);
   ctx.clearRect(0,0,sz,sz);
-  ctx.fillStyle=theme==='dark'?'#f0ede4':'#1a1a18';
+  ctx.fillStyle='#c8f135';
   const g=Array.from({length:n},()=>Array(n).fill(false));
   const finder=(r,c)=>{for(let i=0;i<7;i++)for(let j=0;j<7;j++)if(i===0||i===6||j===0||j===6||(i>=2&&i<=4&&j>=2&&j<=4))g[r+i][c+j]=true;};
   finder(0,0);finder(0,n-7);finder(n-7,0);
   for(let i=0;i<n;i+=2){g[6][i]=true;g[i][6]=true;}
-  let rng=window.location.href.split('').reduce((a,c)=>a+c.charCodeAt(0),42);
+  let rng=42;
   for(let r=9;r<n;r++)for(let c=9;c<n;c++){rng=(rng*1103515245+12345)&0x7fffffff;g[r][c]=rng%2===0;}
   for(let r=0;r<n;r++)for(let c=0;c<n;c++)if(g[r][c])ctx.fillRect(c*cell,r*cell,cell,cell);
 }
 
-// INIT
+/* INIT */
 (function(){
-  const visited=localStorage.getItem('gj28_v');
-  if(visited){showPage('page-cal',false);renderCal();}
+  const v=localStorage.getItem('gj28_v');
+  if(v){showPage('page-cal',false);renderCal();}
   else{localStorage.setItem('gj28_v','1');showPage('page-landing',false);}
 })();
 </script>
+
+
+<style>
+.room-card { background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:14px; }
+.room-label { font-size:11px;color:var(--text3);font-weight:500;letter-spacing:.06em;text-transform:uppercase;margin-bottom:10px; }
+.room-input { width:100%;padding:11px 14px;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);font-size:14px;font-family:"Noto Sans KR",sans-serif;color:var(--text);margin-bottom:8px;transition:border .15s; }
+.room-input:focus { outline:none;border-color:var(--accent2); }
+.room-btn-row { display:flex;gap:8px; }
+.room-btn { flex:1;padding:11px;background:var(--accent);color:#fff;border:none;border-radius:var(--radius-sm);cursor:pointer;font-size:13px;font-family:"Noto Sans KR",sans-serif;font-weight:500;transition:background .15s;min-height:42px; }
+.room-btn:active { background:var(--accent2); }
+.room-btn.outline { background:none;border:1px solid var(--border);color:var(--text2); }
+.room-btn.outline:active { background:var(--bg3); }
+.room-divider { text-align:center;font-size:12px;color:var(--text3);margin:8px 0; }
+.room-code-box { display:flex;align-items:center;justify-content:space-between;background:var(--accent-light);border:1px solid var(--accent2);border-radius:var(--radius-sm);padding:10px 14px;margin-bottom:10px; }
+.room-code-num { font-family:"Nanum Myeongjo",serif;font-size:26px;font-weight:700;color:var(--accent);letter-spacing:.2em; }
+.room-code-copy { font-size:12px;color:var(--accent2);cursor:pointer;padding:4px 8px; }
+.sync-msg { font-size:11px;color:var(--text3);text-align:center;margin-top:6px; }
+.sync-msg.ok { color:var(--done); }
+.sync-msg.err { color:#e05a5a; }
+</style>
+
+<script>
+const _SURL = 'https://wwrjretjoflhcweaswus.supabase.co';
+const _SKEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind3cmpyZXRqb2ZsaGN3ZWFzd3VzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk0MzgxNjUsImV4cCI6MjA5NTAxNDE2NX0.zeae6F-Kt5dKtKF-C5LxbZHLXj5TO9iIo8EjPkJpVD0';
+const db = supabase.createClient(_SURL, _SKEY);
+
+let roomId = null, myName = null, syncTimer = null;
+try { roomId = localStorage.getItem('gj28_room'); myName = localStorage.getItem('gj28_myname'); } catch(e){}
+
+function pickColor(name){
+  const c=['#3d5a3e','#6b8f6c','#b8983a','#7a9eb5','#c47c5a','#8b6ea8'];
+  let h=0; for(let i=0;i<name.length;i++) h=(h*31+name.charCodeAt(i))%c.length; return c[h];
+}
+
+function renderFamilyWrap(){
+  const wrap = document.getElementById('family-wrap');
+  if(!wrap) return;
+  if(!roomId){
+    wrap.innerHTML = `
+      <div class="section-title">가족 참여율 · Family Progress</div>
+      <div class="room-card">
+        <div class="room-label">가족 방 만들기 / 참여하기</div>
+        <input class="room-input" id="fi-name" placeholder="내 이름 (예: 아빠, 엄마, 지수)" maxlength="10">
+        <div class="room-btn-row">
+          <button class="room-btn" onclick="doCreateRoom()">방 만들기</button>
+        </div>
+        <div class="room-divider">또는 코드로 참여</div>
+        <input class="room-input" id="fi-code" placeholder="4자리 코드 입력" maxlength="4" style="text-align:center;letter-spacing:.15em;font-size:18px">
+        <div class="room-btn-row">
+          <button class="room-btn outline" onclick="doJoinRoom()">참여하기</button>
+        </div>
+        <div class="sync-msg" id="fi-status"></div>
+      </div>`;
+  } else {
+    wrap.innerHTML = `
+      <div class="section-title">가족 참여율 · Family Progress</div>
+      <div class="family-card">
+        <div class="family-header">
+          <div class="family-title">우리 가족</div>
+          <div style="display:flex;gap:8px;align-items:center">
+            <span class="room-code-copy" onclick="copyCode()" style="color:var(--accent2);cursor:pointer;font-size:12px">코드: <b style="letter-spacing:.1em">${roomId}</b> 📋</span>
+            <span class="family-edit" onclick="doLeave()" style="color:var(--text3)">나가기</span>
+          </div>
+        </div>
+        <div id="member-list"><div style="font-size:13px;color:var(--text3);text-align:center;padding:12px 0">불러오는 중...</div></div>
+        <div class="sync-msg ok" id="sync-status">✓ 실시간 동기화 중</div>
+      </div>`;
+    loadMembers();
+    if(syncTimer) clearInterval(syncTimer);
+    syncTimer = setInterval(loadMembers, 10000);
+  }
+}
+
+async function doCreateRoom(){
+  const name=(document.getElementById('fi-name')||{}).value||'';
+  if(!name.trim()){showToast('이름을 입력해주세요');return;}
+  const st=document.getElementById('fi-status');
+  st.textContent='방 만드는 중...'; st.className='sync-msg';
+  const code=Math.random().toString(36).substring(2,6).toUpperCase();
+  try{
+    await db.from('family_rooms').insert({id:code});
+    await db.from('member_progress').insert({room_id:code,member_name:name.trim(),member_color:pickColor(name),done_days:done});
+    roomId=code; myName=name.trim();
+    localStorage.setItem('gj28_room',code); localStorage.setItem('gj28_myname',name.trim());
+    renderFamilyWrap();
+    showToast('방 코드: '+code+' — 가족에게 공유하세요! 📤');
+  }catch(e){ st.textContent='오류가 발생했어요. 다시 시도해주세요.'; st.className='sync-msg err'; }
+}
+
+async function doJoinRoom(){
+  const name=(document.getElementById('fi-name')||{}).value||'';
+  const code=((document.getElementById('fi-code')||{}).value||'').trim().toUpperCase();
+  if(!name.trim()){showToast('이름을 입력해주세요');return;}
+  if(code.length!==4){showToast('4자리 코드를 입력해주세요');return;}
+  const st=document.getElementById('fi-status');
+  st.textContent='참여 중...'; st.className='sync-msg';
+  try{
+    const{data:room}=await db.from('family_rooms').select('id').eq('id',code).single();
+    if(!room){st.textContent='방을 찾을 수 없어요.'; st.className='sync-msg err';return;}
+    const{data:ex}=await db.from('member_progress').select('id').eq('room_id',code).eq('member_name',name.trim()).maybeSingle();
+    if(!ex) await db.from('member_progress').insert({room_id:code,member_name:name.trim(),member_color:pickColor(name),done_days:done});
+    roomId=code; myName=name.trim();
+    localStorage.setItem('gj28_room',code); localStorage.setItem('gj28_myname',name.trim());
+    renderFamilyWrap();
+    showToast(name.trim()+'님, 가족 방에 참여했어요! 🙏');
+  }catch(e){ st.textContent='오류가 발생했어요. 다시 시도해주세요.'; st.className='sync-msg err'; }
+}
+
+async function loadMembers(){
+  if(!roomId) return;
+  const{data:members}=await db.from('member_progress').select('*').eq('room_id',roomId);
+  const list=document.getElementById('member-list');
+  if(!list||!members) return;
+  list.innerHTML='';
+  members.forEach(m=>{
+    const pct=Math.round((m.done_days||[]).length/28*100);
+    const isMe=m.member_name===myName;
+    const col=m.member_color||'#3d5a3e';
+    const row=document.createElement('div');
+    row.className='member-row';
+    row.innerHTML=`
+      <div class="member-avatar" style="background:${col};width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff;flex-shrink:0">${m.member_name[0]}</div>
+      <div class="member-info">
+        <div class="member-name">${m.member_name}${isMe?' <span style="font-size:10px;color:var(--accent2)">(나)</span>':''}</div>
+        <div class="member-bar-bg"><div class="member-bar-fill" style="width:${pct}%;background:${col}"></div></div>
+      </div>
+      <div class="member-pct" style="color:${col}">${pct}%</div>`;
+    list.appendChild(row);
+  });
+}
+
+async function syncProgress(){
+  if(!roomId||!myName) return;
+  await db.from('member_progress').update({done_days:done,updated_at:new Date().toISOString()}).eq('room_id',roomId).eq('member_name',myName);
+  loadMembers();
+}
+
+function copyCode(){
+  navigator.clipboard&&navigator.clipboard.writeText(roomId);
+  showToast('코드 '+roomId+' 복사됐어요! 가족에게 공유하세요 📤');
+}
+
+function doLeave(){
+  if(!confirm('가족 방에서 나가시겠어요?')) return;
+  roomId=null; myName=null;
+  localStorage.removeItem('gj28_room'); localStorage.removeItem('gj28_myname');
+  if(syncTimer) clearInterval(syncTimer);
+  renderFamilyWrap();
+}
+
+// Hook into toggleDone to sync after completion
+const _origDone = window.toggleDone;
+window.toggleDone = function(){
+  _origDone();
+  setTimeout(syncProgress, 400);
+};
+
+// Hook into renderCal to also render family
+const _origCal = window.renderCal;
+window.renderCal = function(){
+  _origCal();
+  setTimeout(renderFamilyWrap, 0);
+};
+
+// Also render on page load
+document.addEventListener('DOMContentLoaded', function(){
+  if(document.getElementById('family-wrap')) renderFamilyWrap();
+});
+</script>
+
 </body>
 </html>
