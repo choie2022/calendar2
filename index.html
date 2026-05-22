@@ -131,8 +131,7 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
 .chip-s{background:#f1efe8;color:#444441}
 .day-done-icon{width:24px;height:24px;border-radius:50%;background:var(--done);display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .day-done-icon span{color:#fff;font-size:12px;font-weight:700}
-.qr-wrap{text-align:center;padding:24px 18px;border-top:1px solid var(--border2);margin-top:12px}
-.qr-lbl{font-size:11px;color:var(--text3);margin-top:10px;line-height:1.6}
+
 
 /* DAY PAGE */
 .day-page-wrap{max-width:480px;margin:0 auto;padding:0 18px 6rem}
@@ -231,10 +230,7 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
       <div id="family-wrap"></div>
     </div>
     <div class="weeks-wrap" id="weeks-wrap"></div>
-    <div class="qr-wrap">
-      <canvas id="qr-canvas" width="110" height="110"></canvas>
-      <div class="qr-lbl">QR코드로 사이트 공유 · Scan to share</div>
-    </div>
+
   </div>
 </div>
 
@@ -359,7 +355,6 @@ function renderCal(){
   if(ti>=0){document.getElementById('today-ko').textContent='Day '+(ti+1)+' · '+DAYS[ti].ko;document.getElementById('today-en').textContent=DAYS[ti].en;}
   renderFamilyWrap();
   renderWeeks();
-  drawQR();
 }
 
 // FAMILY SYNC
@@ -538,8 +533,6 @@ function launchConfetti(){const wrap=document.getElementById('conf-wrap');wrap.i
 
 let toastT=null;
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');if(toastT)clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),2600);}
-
-function drawQR(){const canvas=document.getElementById('qr-canvas');if(!canvas)return;const ctx=canvas.getContext('2d'),n=21,sz=110,cell=Math.floor(sz/n);ctx.clearRect(0,0,sz,sz);ctx.fillStyle='#3d5a3e';const g=Array.from({length:n},()=>Array(n).fill(false));const finder=(r,c)=>{for(let i=0;i<7;i++)for(let j=0;j<7;j++)if(i===0||i===6||j===0||j===6||(i>=2&&i<=4&&j>=2&&j<=4))g[r+i][c+j]=true;};finder(0,0);finder(0,n-7);finder(n-7,0);for(let i=0;i<n;i+=2){g[6][i]=true;g[i][6]=true;}let rng=42;for(let r=9;r<n;r++)for(let c=9;c<n;c++){rng=(rng*1103515245+12345)&0x7fffffff;g[r][c]=rng%2===0;}for(let r=0;r<n;r++)for(let c=0;c<n;c++)if(g[r][c])ctx.fillRect(c*cell,r*cell,cell,cell);}
 
 (function(){const v=localStorage.getItem('gj28_v');if(v){showPage('page-cal',false);renderCal();}else{localStorage.setItem('gj28_v','1');showPage('page-landing',false);}})();
 </script>
