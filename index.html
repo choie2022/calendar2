@@ -327,7 +327,20 @@ let done=[],reflections={},curDay=0,timerSecs=TOTAL,timerRunning=false,timerInte
 try{done=JSON.parse(localStorage.getItem('gj28_done')||'[]');}catch(e){}
 try{reflections=JSON.parse(localStorage.getItem('gj28_ref')||'{}');}catch(e){}
 
-function saveLocal(){try{localStorage.setItem('gj28_done',JSON.stringify(done));localStorage.setItem('gj28_ref',JSON.stringify(reflections));}catch(e){}}
+function saveLocal(){
+  try{localStorage.setItem('gj28_done',JSON.stringify(done));localStorage.setItem('gj28_ref',JSON.stringify(reflections));}catch(e){}
+}
+
+async function loadMyProgress(){
+  if(!roomId||!myName) return;
+  const{data}=await db.from('member_progress').select('done_days').eq('room_id',roomId).eq('member_name',myName).maybeSingle();
+  if(data&&data.done_days&&data.done_days.length>0){
+    done=data.done_days;
+    saveLocal();
+    renderCal();
+    showToast('진행률을 불러왔어요 ✓');
+  }
+}
 
 function showPage(id,slide){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active','slide-in'));
@@ -406,7 +419,8 @@ async function doCreateRoom(){
     await db.from('member_progress').insert({room_id:code,member_name:name.trim(),member_color:pickColor(name),done_days:done});
     roomId=code;myName=name.trim();
     localStorage.setItem('gj28_room',code);localStorage.setItem('gj28_myname',name.trim());
-    renderFamilyWrap();showToast('방 코드: '+code+' — 가족에게 공유하세요! 📤');
+    renderFamilyWrap();
+    showToast('방 코드: '+code+' — 가족에게 공유하세요! 📤');
   }catch(e){st.textContent='오류가 발생했어요. 다시 시도해주세요.';st.className='sync-msg err';}
 }
 
@@ -423,7 +437,9 @@ async function doJoinRoom(){
     if(!ex)await db.from('member_progress').insert({room_id:code,member_name:name.trim(),member_color:pickColor(name),done_days:done});
     roomId=code;myName=name.trim();
     localStorage.setItem('gj28_room',code);localStorage.setItem('gj28_myname',name.trim());
-    renderFamilyWrap();showToast(name.trim()+'님, 가족 방에 참여했어요! 🙏');
+    renderFamilyWrap();
+    loadMyProgress();
+    showToast(name.trim()+'님, 가족 방에 참여했어요! 🙏');
   }catch(e){st.textContent='오류가 발생했어요. 다시 시도해주세요.';st.className='sync-msg err';}
 }
 
@@ -521,7 +537,14 @@ function renderRef(idx){
 
 function saveRef(wk){reflections['w'+wk]=document.getElementById('ref-inp').value;saveLocal();showToast('저장되었습니다 ✓');}
 function updateDoneBtn(){const isDone=done.includes(curDay);document.getElementById('done-btn').className='done-btn'+(isDone?' completed':'');document.getElementById('done-text').textContent=isDone?'✓ 완료! 잘 하셨어요!':'✓ 오늘 챌린지 완료 / Mark as done';}
-function toggleDone(){const i=done.indexOf(curDay);if(i>-1)done.splice(i,1);else{done.push(curDay);if(done.length===28)setTimeout(launchConfetti,300);else showToast('완료! 🙏 Day '+(curDay+1)+' done');}saveLocal();updateDoneBtn();setTimeout(syncProgress,400);}
+function toggleDone(){
+  const i=done.indexOf(curDay);
+  if(i>-1)done.splice(i,1);
+  else{done.push(curDay);if(done.length===28)setTimeout(launchConfetti,300);else showToast('완료! 🙏 Day '+(curDay+1)+' done');}
+  saveLocal();
+  updateDoneBtn();
+  syncProgress();
+}
 function navDay(dir){const n=curDay+dir;if(n>=0&&n<28)openDay(n);}
 function shareDay(){const d=DAYS[curDay];const msg='[28일 가정 예배 챌린지]\n\nDay '+(curDay+1)+': '+d.ko+'\n\n'+d.ch+'\n\n말씀: '+d.verse;if(navigator.share){navigator.share({title:'28일 가정 예배 챌린지',text:msg}).catch(()=>{});}else{try{window.open('https://open.kakao.com/o/share?text='+encodeURIComponent(msg),'_blank');}catch(e){navigator.clipboard&&navigator.clipboard.writeText(msg);showToast('클립보드에 복사됐어요!');}}}
 
@@ -534,7 +557,17 @@ function launchConfetti(){const wrap=document.getElementById('conf-wrap');wrap.i
 let toastT=null;
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');if(toastT)clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),2600);}
 
-(function(){const v=localStorage.getItem('gj28_v');if(v){showPage('page-cal',false);renderCal();}else{localStorage.setItem('gj28_v','1');showPage('page-landing',false);}})();
+(function(){
+  const v=localStorage.getItem('gj28_v');
+  if(v){
+    showPage('page-cal',false);
+    renderCal();
+    if(roomId&&myName) setTimeout(loadMyProgress, 500);
+  }else{
+    localStorage.setItem('gj28_v','1');
+    showPage('page-landing',false);
+  }
+})();
 </script>
 </body>
 </html>
